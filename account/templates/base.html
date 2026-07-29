@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-zinc-50">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SocialWebsite{% endblock %}</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body class="h-full flex flex-col text-zinc-900 antialiased">
+
+    <!-- Global Navigation (Will show on all pages except where overridden) -->
+    {% block navbar %}
+    <nav class="bg-white border-b border-zinc-200 py-4 px-6 flex justify-between items-center">
+        <a href="/" class="text-xl font-bold tracking-tight text-zinc-900">SocialPhoto</a>
+        <div class="space-x-4">
+            <a>hello</a>
+            <!-- Navigation links can go here -->
+        </div>
+    </nav>
+    {% endblock %}
+
+    <!-- Main Page Content -->
+    <main class="flex-grow">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Global Footer -->
+    {% block footer %}
+    <footer class="bg-white border-t border-zinc-200 py-6 text-center text-sm text-zinc-400">
+        &copy; {{ now|date:"Y" }} SocialWebsite. All rights reserved.
+    </footer>
+    {% endblock %}
+
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>
