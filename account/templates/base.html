@@ -12,13 +12,61 @@
 
 <body class="h-full flex flex-col text-zinc-900 antialiased">
 
-    <!-- Global Navigation (Will show on all pages except where overridden) -->
+    <!-- Global Navigation -->
     {% block navbar %}
-    <nav class="bg-white border-b border-zinc-200 py-4 px-6 flex justify-between items-center">
-        <a href="/" class="text-xl font-bold tracking-tight text-zinc-900">SocialPhoto</a>
-        <div class="space-x-4">
-            <a>hello</a>
-            <!-- Navigation links can go here -->
+    <nav class="bg-white border-b border-zinc-200 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+
+            <!-- Logo & Menu Links -->
+            <div class="flex items-center space-x-8">
+                <span class="text-xl font-bold tracking-tight text-zinc-900">SocialWebsite</span>
+
+                <!-- Show menu links only if user is authenticated -->
+                {% if request.user.is_authenticated %}
+                <ul class="flex space-x-6">
+                    <li>
+                        <a href="{% url 'dashboard' %}"
+                            class="text-sm font-medium transition-colors {% if section == 'dashboard' %}text-zinc-900 font-semibold{% else %}text-zinc-400 hover:text-zinc-900{% endif %}">
+                            My dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="text-sm font-medium transition-colors {% if section == 'images' %}text-zinc-900 font-semibold{% else %}text-zinc-400 hover:text-zinc-900{% endif %}">
+                            Images
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="text-sm font-medium transition-colors {% if section == 'people' %}text-zinc-900 font-semibold{% else %}text-zinc-400 hover:text-zinc-900{% endif %}">
+                            People
+                        </a>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
+
+            <!-- User Auth Actions -->
+            <div class="flex items-center space-x-4">
+                {% if request.user.is_authenticated %}
+                <span class="text-sm text-zinc-600">
+                    Hello {{ request.user.first_name|default:request.user.username }}
+                </span>
+                <!-- Secure Logout using POST method (Django 5 requirement) -->
+                <form action="{% url 'logout' %}" method="post" class="inline">
+                    {% csrf_token %}
+                    <button type="submit"
+                        class="text-sm font-medium text-zinc-400 hover:text-red-600 transition-colors">
+                        Logout
+                    </button>
+                </form>
+                {% else %}
+                <a href="{% url 'login' %}"
+                    class="text-sm font-medium text-zinc-900 hover:text-violet-600 transition-colors">
+                    Log-in
+                </a>
+                {% endif %}
+            </div>
         </div>
     </nav>
     {% endblock %}
@@ -31,8 +79,8 @@
 
     <!-- Global Footer -->
     {% block footer %}
-    <footer class="bg-white border-t border-zinc-200 py-6 text-center text-sm text-zinc-400">
-        &copy; {{ now|date:"Y" }} SocialWebsite. All rights reserved.
+    <footer class="bg-white border-t border-zinc-200 py-6 text-center text-sm text-zinc-400 mt-auto">
+        &copy; {% now "Y" %} SocialWebsite. All rights reserved.
     </footer>
     {% endblock %}
 
